@@ -2,10 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { ConfigPanelComponent } from './config-panel/config-panel.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ConfigPanelComponent
   ],
   imports: [
     BrowserModule
