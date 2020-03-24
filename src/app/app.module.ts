@@ -1,16 +1,27 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { FormsModule } from '@angular/forms';
+
 import { AppComponent } from './app.component';
 import { ConfigPanelComponent } from './config-panel/config-panel.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { GameControlComponent } from './game-control/game-control.component';
+import { ArenaComponent } from './arena/arena.component';
+import { BotPanelComponent } from './bot-panel/bot-panel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ConfigPanelComponent
+    ConfigPanelComponent,
+    LeaderboardComponent,
+    GameControlComponent,
+    ArenaComponent,
+    BotPanelComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

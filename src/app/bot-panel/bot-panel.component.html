@@ -1,0 +1,43 @@
+<div class="container m-0 p-0">
+<form class="border justify-content-center" (ngSubmit)="onSubmit(formulario)" #formulario="ngForm">
+  <div class="form-group" >
+    <h5 class="font-weight-bold d-md col-12 text-center">Bot: {{ bot.id }}</h5>
+  </div>
+  <div class="form-group m-1">
+    <input type="text" class="mainLoginInput" placeholder="Type bot's name" id="name" name="name" class="col-sm-12"
+    [(ngModel)]="bot.name"
+     required #nameInput="ngModel" />
+  </div>
+  <div class="form-group m-1" >
+    <select class="col-sm-12" name="boolValue" [(ngModel)]="bot.boolValue" >
+      <option style="font-family: Arial, Helvetica, sans-serif; color: gray;"
+      selected="selected" style="color: #636c72" disabled
+      value="null">Select a boolean value</option>
+      <option value="false">False</option>
+      <option value="true">True</option>
+    </select>
+  </div>
+  <div class="form-group m-0 p-x-2" >
+    <label class="col-sm-6"
+    for="speedRange">Speed: {{ bot.speed }}</label>
+    <input type="range" id="speed" name="speed" value="1" min="1" max="7"
+    [(ngModel)]="bot.speed" class="col-sm-6" id="speedRange" />
+  </div>
+  <div class="form-group m-1">
+    <select class="col-sm-12" name="direction" [(ngModel)]="bot.direction" >
+      <option style="font-family: Arial, Helvetica, sans-serif; color: gray;"
+      selected="selected" style="color: #636c72" disabled
+      value="null">Select a direction</option>
+      <option *ngFor="let dir of directions | keyvalue" value="{{dir.key}}">{{ dir.value }}</option>
+    </select>
+  </div>
+  <div class="form-group m-1 text-center">
+    <button class="btn btn-primary" [disabled]="formulario.invalid"
+    type="submit">Save Bot</button>
+  </div>
+  <div class="form-group m-1">
+    <span class="help-block"
+    *ngIf="nameInput.errors?.required && nameInput.touched">Please, enter a name!</span>
+  </div>
+</form>
+</div>
