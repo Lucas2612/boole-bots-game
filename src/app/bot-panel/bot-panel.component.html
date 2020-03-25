@@ -1,11 +1,12 @@
 <div class="container m-0 p-0">
 <form class="border justify-content-center" (ngSubmit)="onSubmit(formulario)" #formulario="ngForm">
   <div class="form-group" >
-    <h5 class="font-weight-bold d-md col-12 text-center">Bot: {{ bot.id }}</h5>
+    <h5 class="font-weight-bold d-md col-12 text-center"
+    [ngStyle]="{'backgroundColor': bot.color}" >Bot: {{ bot.id }}</h5>
   </div>
   <div class="form-group m-1">
     <input type="text" class="mainLoginInput" placeholder="Type bot's name" id="name" name="name" class="col-sm-12"
-    [(ngModel)]="bot.name"
+    [(ngModel)]="bot.name" (keyup)="onChange()"
      required #nameInput="ngModel" />
   </div>
   <div class="form-group m-1" >
@@ -31,6 +32,14 @@
       <option *ngFor="let dir of directions | keyvalue" value="{{dir.key}}">{{ dir.value }}</option>
     </select>
   </div>
+  <div class="form-group m-1">
+    <select class="col-sm-12" name="operation" [(ngModel)]="bot.operation" >
+      <option style="font-family: Arial, Helvetica, sans-serif; color: gray;"
+      selected="selected" style="color: #636c72" disabled
+      value="null">Select a operation</option>
+      <option *ngFor="let opr of operations | keyvalue" value="{{opr.key}}">{{ opr.value }}</option>
+    </select>
+  </div>
   <div class="form-group m-1 text-center">
     <button class="btn btn-primary" [disabled]="formulario.invalid"
     type="submit">Save Bot</button>
@@ -38,6 +47,10 @@
   <div class="form-group m-1">
     <span class="help-block"
     *ngIf="nameInput.errors?.required && nameInput.touched">Please, enter a name!</span>
+  </div>
+  <div class="form-group m-1">
+    <span class="help-block"
+    *ngIf="nomesIguais"> O nome {{ nameInput.value }} já existe !!! </span>
   </div>
 </form>
 </div>

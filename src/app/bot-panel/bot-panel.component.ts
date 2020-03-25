@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Bot } from '../entity/bot';
 import { Direction } from '../entity/direction';
 import { ConfigPanelService } from '../config-panel.service';
+import { Operation } from '../entity/operation';
 
 @Component({
   selector: 'app-bot-panel',
@@ -12,8 +13,11 @@ export class BotPanelComponent implements OnInit {
 
   @Input() bot;
   configPanelService: ConfigPanelService;
+  nomesIguais = false;
 
   directions = Direction;
+  operations = Operation;
+  changeLog: any;
   constructor(configPanelService: ConfigPanelService) {
     this.configPanelService = configPanelService;
    }
@@ -22,10 +26,18 @@ export class BotPanelComponent implements OnInit {
   }
 
   onSubmit(submittedForm) {
-    if (submittedForm.invalid) {
+    if (submittedForm.invalid || this.nomesIguais) {
       return;
     }
     this.configPanelService.saveBot(this.bot);
+   //  this.configPanelService.sendMessage('Message from Home Component to App Component!');
   }
+
+  onChange() {
+    this.nomesIguais = false;
+    this.nomesIguais = this.configPanelService.checkNames(this.bot);
+  }
+
+
 
 }

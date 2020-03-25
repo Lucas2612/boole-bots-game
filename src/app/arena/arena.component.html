@@ -1,1 +1,9 @@
 <p>arena works!</p>
+
+<tr class="" *ngFor="let data of arena; let i = index">
+  <td class="border p-0 m-0" style="background-color: gray;" *ngFor="let cell of data; let j = index">
+    <div class="col-md-1 square" >
+      {{ i }} {{ j }}
+    </div>
+  </td>
+</tr>

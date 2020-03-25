@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfigPanelService } from '../config-panel.service';
 import { Bot } from '../entity/bot';
 
@@ -7,26 +7,32 @@ import { Bot } from '../entity/bot';
   templateUrl: './config-panel.component.html',
   styleUrls: ['./config-panel.component.css']
 })
-export class ConfigPanelComponent implements OnInit {
+export class ConfigPanelComponent implements OnInit, OnDestroy {
 
   configPanelService: ConfigPanelService;
   bots: Bot[];
+  subscription;
 
   constructor(configPanelService: ConfigPanelService) {
     this.configPanelService = configPanelService;
   }
 
   getBots() {
-      this.configPanelService.getBots().subscribe(
-      (bots) => {
+      this.configPanelService.getSubject().subscribe(
+      (bots: Bot[]) => {
         this.bots = bots;
-        console.log(this.bots);
+
       }
     );
   }
 
   ngOnInit(): void {
     this.getBots();
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    this.subscription.unsubscribe();
   }
 
 }

@@ -9,12 +9,9 @@ import { ConfigPanelService } from './config-panel.service';
 export class AppComponent implements OnInit {
   title = 'boole-bots-game';
 
-  configPanelService: ConfigPanelService;
-
-  constructor(configPanelService: ConfigPanelService) {
-    this.configPanelService = configPanelService;
+  constructor() {
   }
   ngOnInit(): void {
-    this.configPanelService.fetchData();
+    // this.configPanelService.fetchData();
   }
 }

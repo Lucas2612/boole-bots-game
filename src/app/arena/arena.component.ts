@@ -7,7 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ArenaComponent implements OnInit {
 
-  constructor() { }
+  arena: number[][];
+  constructor() {
+    this.arena = [];
+    for (let i = 0; i < 8; i++) {
+        this.arena[i] = [];
+        for (let j = 0; j < 8; j++) {
+            this.arena[i][j] = 0;
+        }
+    }
+  }
 
   ngOnInit(): void {
   }
