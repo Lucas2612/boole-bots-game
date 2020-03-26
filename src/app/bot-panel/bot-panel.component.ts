@@ -14,15 +14,18 @@ export class BotPanelComponent implements OnInit {
   @Input() bot;
   configPanelService: ConfigPanelService;
   nomesIguais = false;
-
   directions = Direction;
+  directionOptions = [];
   operations = Operation;
   changeLog: any;
+  keys = Object.keys;
+
   constructor(configPanelService: ConfigPanelService) {
     this.configPanelService = configPanelService;
    }
 
   ngOnInit(): void {
+    // this.directionOptions = Object.keys(this.directions);
   }
 
   onSubmit(submittedForm) {

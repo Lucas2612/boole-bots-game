@@ -1,9 +1,20 @@
 <p>arena works!</p>
 
-<tr class="" *ngFor="let data of arena; let i = index">
+<div class="container" style="margin-left: 10%; margin-right: 10%">
+  <div class="bg-secondary p-0 m-0" style="position: absolute; width: 400px; height: 400px;" >
+    <div *ngFor="let bot of bots" class="rounded"
+      style="width: 50px; height: 50px; position: absolute;"
+      [style.background-color]= "bot.color" [style.z-index]="bot.id"
+      [style.top.px]='bot.posicao.y' [style.left.px]='bot.posicao.x'>
+    </div>
+  </div>
+
+</div>
+
+<!-- <tr class="" *ngFor="let data of arena; let i = index">
   <td class="border p-0 m-0" style="background-color: gray;" *ngFor="let cell of data; let j = index">
     <div class="col-md-1 square" >
       {{ i }} {{ j }}
     </div>
   </td>
-</tr>
+</tr> -->

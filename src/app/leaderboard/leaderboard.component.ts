@@ -19,7 +19,7 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
    }
 
   getBots() {
-    this.subscription = this.configPanelService.getSubject().subscribe(
+    this.subscription = this.configPanelService.getSubjectBot().subscribe(
     (bots) => {
       this.bots = bots.slice();
       }

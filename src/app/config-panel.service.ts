@@ -3,16 +3,17 @@ import { Bot } from './entity/bot';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject, of, BehaviorSubject } from 'rxjs';
 import { Posicao } from './entity/posicao';
+import { Direction } from './entity/direction';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigPanelService {
-
-  botsSubject;
+  private botsSubject: BehaviorSubject<Bot[]>;
   bots: Bot[];
-  private subject = new Subject<any>();
-  arena: number[][];
+  private arenaSubject;
+  private battleArenaSubject = new Subject<boolean>();
+  private battleGameControlSubject = new Subject<boolean>();
 
   constructor() {
     this.fetchData();
@@ -20,22 +21,34 @@ export class ConfigPanelService {
 
   fetchData() {
     this.bots = new Array();
-    const bot1 = new Bot(1, 'red');
-    const bot2 = new Bot(2, 'green');
-    const bot3 = new Bot(3, 'yellow');
-    const bot4 = new Bot(4, 'white');
+    const bot1 = new Bot(1, 'red', 'teste1');
+    const bot2 = new Bot(2, 'green', 'teste2');
+    const bot3 = new Bot(3, 'yellow', 'teste3');
+    const bot4 = new Bot(4, 'white', 'teste4');
 
     this.bots.push(bot1);
     this.bots.push(bot2);
     this.bots.push(bot3);
     this.bots.push(bot4);
 
-    this.botsSubject = new BehaviorSubject(this.bots);
-    this.createArena();
+    this.botsSubject = new BehaviorSubject<Bot[]>(this.bots);
+    this.arenaSubject = new Subject<Bot>();
   }
 
-  getSubject(): Subject<Bot[]> {
+  getSubjectBot(): Observable<Bot[]> {
     return this.botsSubject.asObservable();
+  }
+
+  getSubjectArena(): Observable<Bot> {
+    return this.arenaSubject.asObservable();
+  }
+
+  getArenaBattleSubject(): Observable<boolean> {
+    return this.battleArenaSubject.asObservable();
+  }
+
+  getGameControlSubject(): Observable<boolean> {
+    return this.battleGameControlSubject.asObservable();
   }
 
   saveBot(bot: Bot) {
@@ -46,14 +59,8 @@ export class ConfigPanelService {
     this.bots[pos].update(bot);
     this.botsSubject.next(this.bots);
 
-    // atribuir uma posicao, se ainda não foi atribuida.
-    if (bot.posicaoInicial.x === -1) {
-      function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
-    }
+    // manda bot pra arena, a arena atribui uma posicao inicial ramdomicamente
+    this.arenaSubject.next(bot);
 
   }
 
@@ -66,32 +73,12 @@ export class ConfigPanelService {
     }
   }
 
-  createArena() {
-    this.arena = [];
-    for (let i = 0; i < 8; i++) {
-        this.arena[i] = [];
-        for (let j = 0; j < 8; j++) {
-            this.arena[i][j] = 0;
-        }
-    }
+  sendBattleArenaSubject(battle: boolean) {
+    this.battleArenaSubject.next(battle);
   }
 
-  private convertNumberToPosicao(value): Posicao {
-    return new Posicao(0, 0);
-  }
-
-  private convertPosicaoToNumber(posicao: Posicao): number {
-    return 0;
-  }
-
-  private posicaoRamdom(): Posicao {
-
-    // remover posicoes que já possuem bots.
-    for (const elem of this.bots) {
-
-    }
-
-    return new Posicao(0, 0);
+  sendBattleToGameControl(battle: boolean) {
+    this.battleGameControlSubject.next(battle);
   }
 
 }

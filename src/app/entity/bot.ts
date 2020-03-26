@@ -10,23 +10,24 @@ export class Bot {
   speed: number;
   direction: Direction;
   color: string;
-  posicaoInicial: Posicao;
+  posicao: Posicao;
 
-  constructor(id: number, color: string) {
+  constructor(id: number, color: string, name: string) {
     this.id = id;
-    this.name = '';
+    this.name = name;
     this.boolValue = null;
     this.operation = null;
     this.speed = 1;
     this.direction = null;
     this.color = color;
-    this.posicaoInicial = new Posicao(-1, -1);
+    this.posicao = new Posicao(-1, -1);
   }
 
   toString() {
     return 'Bot [id:' + this.id + ' name: ' + this.name + ' boolValue: ' + this.boolValue +
     ' operation: ' + this.operation + ' speed: ' + this.speed +
-    ' direction ' + this.direction + ']';
+    ' direction: ' + this.direction + ' position.x: ' + this.posicao.x +
+    ' position.y: ' + this.posicao.y + ' ]';
   }
 
   update(bot: Bot) {
@@ -35,5 +36,6 @@ export class Bot {
     this.operation = bot.operation;
     this.speed = bot.speed;
     this.direction = bot.direction;
+    this.posicao = bot.posicao;
   }
 }

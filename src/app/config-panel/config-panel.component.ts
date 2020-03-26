@@ -18,7 +18,7 @@ export class ConfigPanelComponent implements OnInit, OnDestroy {
   }
 
   getBots() {
-      this.configPanelService.getSubject().subscribe(
+      this.configPanelService.getSubjectBot().subscribe(
       (bots: Bot[]) => {
         this.bots = bots;
 
