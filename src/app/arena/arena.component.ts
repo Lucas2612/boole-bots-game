@@ -5,6 +5,7 @@ import { Posicao } from '../entity/posicao';
 import { interval, Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Direction } from '../entity/direction';
+import { ArenaService } from '../arena.service';
 
 @Component({
   selector: 'app-arena',
@@ -15,14 +16,17 @@ export class ArenaComponent implements OnInit, OnDestroy {
 
   subscriptionBot;
   configPanelService;
+  arenaService;
   bots: Bot[] = new Array();
   sequenceArena: number[] = new Array();
   pixelFactor = 50;
   subscriptionGame;
   stop = false;
 
-  constructor(configPanelService: ConfigPanelService) {
+  constructor(configPanelService: ConfigPanelService,
+              arenaService: ArenaService) {
     this.configPanelService = configPanelService;
+    this.arenaService = arenaService;
   }
 
   ngOnInit(): void {
@@ -82,53 +86,18 @@ export class ArenaComponent implements OnInit, OnDestroy {
         if (element.name === '') { return; }
       });
       this.configPanelService.sendBattleToGameControl(true);
-      this.startBattle();
+      this.startBattle(this.bots);
     } else {
       this.stop = true;
       this.configPanelService.sendBattleToGameControl(false);
     }
   }
 
-  runTaskBackground(): Observable<boolean> {
-    // apply force
-    for (const bot of this.bots) {
-      const distance = bot.speed * 10;
-      switch (bot.direction) {
-        case Direction.EAST: {
-          if (bot.posicao.x + distance >= 350) {
-            bot.posicao.x = 350;
-            bot.direction = Direction.WEST;
-          } else {
-            bot.posicao.x = bot.posicao.x + distance;
-          }
-          break;
-        }
-        case Direction.WEST: {
-          bot.posicao.x = bot.posicao.x - distance;
-          break;
-        }
-        case Direction.NORTH: {
-          bot.posicao.y = bot.posicao.y - distance;
-          break;
-        }
-        case Direction.SOUTH: {
-          bot.posicao.y = bot.posicao.y +  distance;
-          break;
-        }
-        default: {
-
-        }
-      }
-    }
-    console.log(new Date());
-    return of(true).pipe(delay(2000));
-  }
-
-  private startBattle() {
-
+  private startBattle(bots) {
+    this.bots = bots.slice();
     if (this.bots.length > 1 && this.stop === false) {
-      this.runTaskBackground().subscribe(
-        x => this.startBattle(),
+      this.arenaService.runTaskBackground(this.bots).subscribe(
+        xBots => this.startBattle(xBots),
         err => console.log(err),
         () => console.log('completion')
       );
