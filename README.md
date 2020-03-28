@@ -1,5 +1,10 @@
 # BooleBotsGame
 
+Based on https://github.com/florinpop17/app-ideas 
+I know the app is not finished but It has the most features.
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
 
 ## Development server
