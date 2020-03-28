@@ -25,22 +25,26 @@
     [(ngModel)]="bot.speed" class="col-sm-6" id="speedRange" />
   </div>
   <div class="form-group m-1">
-    <select class="col-sm-12" name="direction" [(ngModel)]="bot.direction" >
+    <select class="col-sm-12" name="direction" [(ngModel)]="bot.direction">
       <option style="font-family: Arial, Helvetica, sans-serif; color: gray;"
       selected="selected" style="color: #636c72" disabled
       value="null">Select a direction</option>
-      <option *ngFor="let dir of keys(directions)" [value]="directions[dir]">
-        {{ directions[dir] }}
+        <option *ngFor="let dir of directions | enumToArray" [ngValue]="dir.index">
+        {{ dir.name }}
       </option>
-
+      <!-- <option *ngFor="let item of directions | enumToArray" [value]="item.index">{{item.name}}
+       </option> -->
+  <!-- <option *ngFor="let dir of keys(directions)" [value]="dir">{{ directions[dir] }}</option>
+ -->
     </select>
   </div>
-  <div class="form-group m-1">
+   <div class="form-group m-1">
     <select class="col-sm-12" name="operation" [(ngModel)]="bot.operation" >
       <option style="font-family: Arial, Helvetica, sans-serif; color: gray;"
       selected="selected" style="color: #636c72" disabled
       value="null">Select a operation</option>
-      <option *ngFor="let opr of operations | keyvalue" value="{{opr.key}}">{{ opr.value }}</option>
+      <option *ngFor="let opr of operations | enumToArray" [ngValue]="opr.index">
+        {{ opr.name }}</option>
     </select>
   </div>
   <div class="form-group m-1 text-center">

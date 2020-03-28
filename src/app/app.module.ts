@@ -9,6 +9,7 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { GameControlComponent } from './game-control/game-control.component';
 import { ArenaComponent } from './arena/arena.component';
 import { BotPanelComponent } from './bot-panel/bot-panel.component';
+import { EnumToArrayPipe } from './enumtoarray.pipe';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { BotPanelComponent } from './bot-panel/bot-panel.component';
     LeaderboardComponent,
     GameControlComponent,
     ArenaComponent,
-    BotPanelComponent
+    BotPanelComponent,
+    EnumToArrayPipe
   ],
   imports: [
     BrowserModule,

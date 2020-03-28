@@ -21,10 +21,10 @@ export class ConfigPanelService {
 
   fetchData() {
     this.bots = new Array();
-    const bot1 = new Bot(1, 'red', 'teste1');
-    const bot2 = new Bot(2, 'green', 'teste2');
-    const bot3 = new Bot(3, 'yellow', 'teste3');
-    const bot4 = new Bot(4, 'white', 'teste4');
+    const bot1 = new Bot(1, 'red', 'BOT 1');
+    const bot2 = new Bot(2, 'green', 'BOT 2');
+    const bot3 = new Bot(3, 'yellow', 'BOT 3');
+    const bot4 = new Bot(4, 'white', 'BOT 4');
 
     this.bots.push(bot1);
     this.bots.push(bot2);
@@ -57,6 +57,7 @@ export class ConfigPanelService {
     });
     // this.bots[pos].name = bot.name;
     this.bots[pos].update(bot);
+    // console.log(this.bots[pos].direction);
     this.botsSubject.next(this.bots);
 
     // manda bot pra arena, a arena atribui uma posicao inicial ramdomicamente

@@ -17,14 +17,14 @@ export class Bot {
     this.name = name;
     this.boolValue = null;
     this.operation = null;
-    this.speed = 1;
+    this.speed = null;
     this.direction = null;
     this.color = color;
     this.posicao = new Posicao(-1, -1);
   }
 
   toString() {
-    return 'Bot [id:' + this.id + ' name: ' + this.name + ' boolValue: ' + this.boolValue +
+    return 'Bot [id:' + this.id + ' color: ' + this.color + ' name: ' + this.name + ' boolValue: ' + this.boolValue +
     ' operation: ' + this.operation + ' speed: ' + this.speed +
     ' direction: ' + this.direction + ' position.x: ' + this.posicao.x +
     ' position.y: ' + this.posicao.y + ' ]';
