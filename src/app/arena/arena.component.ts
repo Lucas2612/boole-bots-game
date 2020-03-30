@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ConfigPanelService } from '../config-panel.service';
 import { Bot } from '../entity/bot';
-import { Posicao } from '../entity/posicao';
+import { Position } from '../entity/position';
 import { Direction } from '../entity/direction';
 import { ArenaService } from '../arena.service';
 import { Operation } from '../entity/operation';
-import { EnumToArrayPipe } from '../enumtoarray.pipe';
 
 @Component({
   selector: 'app-arena',
@@ -56,18 +55,14 @@ export class ArenaComponent implements OnInit, OnDestroy {
 
     // if doesn't exist, push in the array and set ramdom position
     if (pos === -1) {
-      bot.posicao = this.randomPosition();
+      bot.position = this.randomPosition();
       if (bot.boolValue === null) {bot.boolValue = this.randomValue([true, false]); }
-      if (bot.speed === null)  { bot.speed = this.randomValue([1, 2, 3, 4, 5]); }
-      if (bot.direction === null) { bot.direction = this.randomValueEnum(Object.keys(Direction).filter(e => !isNaN(+e))); }
-      if (bot.operation === null) { bot.operation = this.randomValueEnum(Object.keys(Operation).filter(e => !isNaN(+e))); }
+      if (bot.speed === null)  { bot.speed = this.getRandomInt(0, 4) + 1; }
+      if (bot.direction === null) { bot.direction = this.getRandomInt(0, Object.keys(Direction).filter(e => !isNaN(+e)).length); }
+      if (bot.operation === null) { bot.operation = this.getRandomInt(0, Object.keys(Operation).filter(e => !isNaN(+e)).length); }
       console.log(bot);
       this.bots.push(bot);
     }
-  }
-
-  private randomValueEnum(array: any[]): any {
-    return this.getRandomInt(0, array.length);
   }
 
   private randomValue(array: any[]): any {
@@ -75,12 +70,12 @@ export class ArenaComponent implements OnInit, OnDestroy {
     return array[index];
   }
 
-  private randomPosition(): Posicao {
+  private randomPosition(): Position {
     const index = this.getRandomInt(0, this.sequenceArena.length);
     const pos = this.sequenceArena[index];
-    // retira a posicao da sequence
+    // it removes the position from the sequence
     this.sequenceArena.splice(index, 1);
-    return Posicao.generatePosicao(pos, this.pixelFactor);
+    return Position.generatePosition(pos, this.pixelFactor);
   }
 
   private getRandomInt(min, max) {
@@ -90,32 +85,37 @@ export class ArenaComponent implements OnInit, OnDestroy {
   }
 
   private onStartStop(battle: boolean) {
+    console.log('Arena onStartStop: ' + battle);
     // battle === false -> try to start
-    console.log('arena onStartStop' +  ' battle:' + battle);
     if (battle === false) {
-      console.log(this.bots.length);
       if (this.bots.length < 4) { return; }
       this.bots.forEach(element => {
         if (element.name === '') { return; }
       });
       this.configPanelService.sendBattleToGameControl(true);
+      this.stop = false;
       this.startBattle(this.bots);
     } else {
-      this.stop = true;
       this.configPanelService.sendBattleToGameControl(false);
+      this.stop = true;
     }
   }
 
   private startBattle(bots) {
     this.bots = bots.slice();
     if (this.bots.length > 1 && this.stop === false) {
+      // runs in background, when finishes, check condition and runs again
       this.arenaService.runTaskBackground(this.bots).subscribe(
         xBots => this.startBattle(xBots),
         err => console.log(err),
       );
-      // solve constraints
-
-      // display results
+    } else {
+      if (this.bots.length === 1) {
+        console.log('Bot ' + this.bots[0].color + ' Wins');
+        this.bots[0].wins += 1;
+        this.arenaService.sendWinnerBot(this.bots[0]);
+      }
+      this.onStartStop(true);
     }
   }
 

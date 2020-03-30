@@ -13,7 +13,7 @@ export class BotPanelComponent implements OnInit {
 
   @Input() bot: Bot;
   configPanelService: ConfigPanelService;
-  nomesIguais = false;
+  equalNames = false;
   directions = Direction;
   operations = Operation;
   changeLog: any;
@@ -27,7 +27,7 @@ export class BotPanelComponent implements OnInit {
   }
 
   onSubmit(submittedForm) {
-    if (submittedForm.invalid || this.nomesIguais) {
+    if (submittedForm.invalid || this.equalNames) {
       return;
     }
     // this.bot.direction = Direction[Direction[this.dirVal]];
@@ -36,8 +36,8 @@ export class BotPanelComponent implements OnInit {
   }
 
   onChange() {
-    this.nomesIguais = false;
-    this.nomesIguais = this.configPanelService.checkNames(this.bot);
+    this.equalNames = false;
+    this.equalNames = this.configPanelService.checkNames(this.bot);
   }
 
 

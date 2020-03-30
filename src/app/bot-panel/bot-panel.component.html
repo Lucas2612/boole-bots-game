@@ -14,8 +14,8 @@
       <option style="font-family: Arial, Helvetica, sans-serif; color: gray;"
       selected="selected" style="color: #636c72" disabled
       value="null">Select a boolean value</option>
-      <option value="false">False</option>
-      <option value="true">True</option>
+      <option [ngValue]="false">False</option>
+      <option [ngValue]="true">True</option>
     </select>
   </div>
   <div class="form-group m-0 p-x-2" >
@@ -57,7 +57,7 @@
   </div>
   <div class="form-group m-1">
     <span class="help-block"
-    *ngIf="nomesIguais"> O nome {{ nameInput.value }} já existe !!! </span>
+    *ngIf="equalNames"> The name {{ nameInput.value }} already exists !!! </span>
   </div>
 </form>
 </div>

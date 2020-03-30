@@ -1,6 +1,6 @@
 import { Operation } from './operation';
 import { Direction } from './direction';
-import { Posicao } from './posicao';
+import { Position } from './position';
 
 export class Bot {
   id: number;
@@ -10,7 +10,8 @@ export class Bot {
   speed: number;
   direction: Direction;
   color: string;
-  posicao: Posicao;
+  position: Position;
+  wins: number;
 
   constructor(id: number, color: string, name: string) {
     this.id = id;
@@ -20,14 +21,15 @@ export class Bot {
     this.speed = null;
     this.direction = null;
     this.color = color;
-    this.posicao = new Posicao(-1, -1);
+    this.position = new Position(-1, -1);
+    this.wins = 0;
   }
 
   toString() {
     return 'Bot [id:' + this.id + ' color: ' + this.color + ' name: ' + this.name + ' boolValue: ' + this.boolValue +
     ' operation: ' + this.operation + ' speed: ' + this.speed +
-    ' direction: ' + this.direction + ' position.x: ' + this.posicao.x +
-    ' position.y: ' + this.posicao.y + ' ]';
+    ' direction: ' + this.direction + ' position.x: ' + this.position.x +
+    ' position.y: ' + this.position.y + ' wins: ' + this.wins + ']';
   }
 
   update(bot: Bot) {
@@ -36,6 +38,6 @@ export class Bot {
     this.operation = bot.operation;
     this.speed = bot.speed;
     this.direction = bot.direction;
-    this.posicao = bot.posicao;
+    this.position = bot.position;
   }
 }

@@ -2,8 +2,6 @@ import { Injectable, OnInit } from '@angular/core';
 import { Bot } from './entity/bot';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject, of, BehaviorSubject } from 'rxjs';
-import { Posicao } from './entity/posicao';
-import { Direction } from './entity/direction';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +45,10 @@ export class ConfigPanelService {
     return this.battleArenaSubject.asObservable();
   }
 
+  sendBattleArenaSubject(battle: boolean) {
+    this.battleArenaSubject.next(battle);
+  }
+
   getGameControlSubject(): Observable<boolean> {
     return this.battleGameControlSubject.asObservable();
   }
@@ -60,7 +62,7 @@ export class ConfigPanelService {
     // console.log(this.bots[pos].direction);
     this.botsSubject.next(this.bots);
 
-    // manda bot pra arena, a arena atribui uma posicao inicial ramdomicamente
+    // send bot to arena, the arena sets a initial position randomically
     this.arenaSubject.next(bot);
 
   }
@@ -72,10 +74,6 @@ export class ConfigPanelService {
         return true;
       }
     }
-  }
-
-  sendBattleArenaSubject(battle: boolean) {
-    this.battleArenaSubject.next(battle);
   }
 
   sendBattleToGameControl(battle: boolean) {

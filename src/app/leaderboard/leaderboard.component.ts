@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ArenaService } from '../arena.service';
 import { ConfigPanelService } from '../config-panel.service';
-import { Bot } from '../entity/bot';
-import { Subscription } from 'rxjs';
+import { Leaderboard } from '../entity/leaderboard';
+
 
 @Component({
   selector: 'app-leaderboard',
@@ -10,29 +11,35 @@ import { Subscription } from 'rxjs';
 })
 export class LeaderboardComponent implements OnInit, OnDestroy {
 
+  arenaService: ArenaService;
   configPanelService: ConfigPanelService;
-  bots: Bot[];
-  subscription;
+  subscriptionBotWinner;
+  wins: Leaderboard[] = new Array();
 
-  constructor(configPanelService: ConfigPanelService) {
+  constructor(arenaService: ArenaService, configPanelService: ConfigPanelService) {
+    this.arenaService = arenaService;
     this.configPanelService = configPanelService;
-   }
+  }
 
-  getBots() {
-    this.subscription = this.configPanelService.getSubjectBot().subscribe(
-    (bots) => {
-      this.bots = bots.slice();
+  ngOnInit(): void {
+    const subscription = this.configPanelService.getSubjectBot().subscribe(
+      bots => { bots.forEach(o => this.wins.push(new Leaderboard(o))); }
+    );
+    subscription.unsubscribe();
+    this.arenaService.getSendBotSubject().subscribe(
+      bot => {
+        this.wins.forEach( (element, index, array) => {
+          if (element.bot.id === bot.id) { array[index].wins += 1; }
+        });
+
+        this.wins = this.wins.slice();
       }
     );
   }
 
-  ngOnInit(): void {
-    this.getBots();
-  }
-
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
+    this.subscriptionBotWinner.unsubscribe();
   }
 
 }

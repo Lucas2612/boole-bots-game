@@ -1,4 +1,23 @@
-<div>
-  {{ bots }}
+<h3 class="text-center">Leaderboard</h3>
+<hr>
+
+<div class="container">
+  <table class="table border" style="width: 50%; margin-left:auto;
+  margin-right:auto;" >
+    <thead class="bg-secondary">
+      <tr>
+        <th>Bot</th>
+        <th>Wins</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let win of wins" >
+        <td [ngStyle]="{'backgroundColor': win.bot.color}">{{ win.bot.name }}</td>
+        <td>{{ win.wins }}</td>
+      </tr>
+  </tbody>
+  </table>
 </div>
+
+
 

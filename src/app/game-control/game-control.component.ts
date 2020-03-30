@@ -28,13 +28,14 @@ export class GameControlComponent implements OnInit, OnDestroy {
   }
 
   onStartStop() {
-    console.log(this.startStop);
+    console.log('onStartStop ' + this.battle);
     this.configPanelService.sendBattleArenaSubject(this.battle);
   }
 
   changeBattle(battle) {
+    console.log('changeBattle ' + battle);
     this.battle = battle;
-    this.startStop = battle === true ? 'Stop!' : 'Start!';
+    this.startStop = battle === true ? 'Stop!' : 'Battle!';
   }
 
 }
